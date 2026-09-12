@@ -1,5 +1,3 @@
-// ── PARTICLES ELIMINADAS PARA MÁXIMO RENDIMIENTO ─────────────────────
-// Partículas desactivadas completamente para eliminar lag
 (function createParticles() {
   // Función vacía - partículas eliminadas
 })();
