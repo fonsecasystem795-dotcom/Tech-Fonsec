@@ -1,8 +1,3 @@
-/* ====================================================
-   FONSEC SYSTEM TECH — JavaScript
-   (sin chatbot · cursor normal · contadores fijos)
-   ==================================================== */
-
 // ── PARTICLES ELIMINADAS PARA MÁXIMO RENDIMIENTO ─────────────────────
 // Partículas desactivadas completamente para eliminar lag
 (function createParticles() {
