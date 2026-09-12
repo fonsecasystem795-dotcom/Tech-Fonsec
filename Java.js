@@ -1,5 +1,4 @@
 (function createParticles() {
-  // Función vacía - partículas eliminadas
 })();
 
 // ── NAVBAR SCROLL OPTIMIZADO MÁXIMO ────────────────────────────
