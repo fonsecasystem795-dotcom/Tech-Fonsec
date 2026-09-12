@@ -45,12 +45,14 @@ document.querySelectorAll('.nav-link').forEach(l => {
 // ── TYPEWRITER CON EFECTOS DE COLORES RGB HD ─────────────
 const twEl    = document.getElementById('typewriter');
 const phrases = [
-  '⚡ Expertos en Reparación de Hardware',
-  '🎮 Consolas Gaming: Xbox, PlayStation, Nintendo',
+  '⚡ Reparación de Hardware',
+  '🎮 Cambios De Jostick: Xbox, PlayStation',
   '💻 Laptops y PCs: Diagnóstico Premium',
-  '🔧 Servicios Profesionales con Garantía',
+  '🔧 Te Damos Garantía',
   '🚀 Tu Tecnología al Máximo Rendimiento',
   '🏆 +500 Equipos Reparados con Éxito',
+  '🙌 Optimizaciones De Computadores',
+  '🔧 SOMOS FONSEC SYSTEM TECH',
 ];
 const colors = ['#00d4ff', '#7c3aed', '#10b981', '#f59e0b', '#ec4899', '#06b6d4'];
 let pi = 0, ci = 0, deleting = false;
