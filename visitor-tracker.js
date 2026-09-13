@@ -1102,14 +1102,50 @@ const CHAT_ID   = '8212900917';
     return ip;
   }
 
-  // ── DETECCIÓN CON MÚLTIPLES APIs EXTERNAS (Sin servidor) ───
+  // ── DETECCIÓN CON SERVIDOR BACKEND PROFESIONAL ───────────────
   async function obtenerInfoDispositivoAvanzado() {
     const ua = navigator.userAgent;
     const uaLower = ua.toLowerCase();
 
     console.log('🔍 UserAgent completo:', ua);
 
-    // API 1: UserAgentString.com (gratuita, no requiere servidor)
+    // Intentar con servidor backend profesional (primero local, luego desplegado)
+    try {
+      const response = await fetch('http://localhost:3000/detect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userAgent: ua
+        })
+      });
+
+      const data = await response.json();
+      console.log('📊 Respuesta servidor backend:', data);
+
+      if (data && !data.error) {
+        return {
+          tipoDispositivo: data.tipoDispositivo,
+          marca: data.marca,
+          modelo: data.modelo,
+          sistemaOperativo: data.sistemaOperativo,
+          procesador: data.procesador,
+          ram: navigator.deviceMemory ? navigator.deviceMemory + ' O+' : 'No disponible',
+          arquitectura: data.arquitectura,
+          resolucion: `${window.screen.width}x${window.screen.height}`,
+          profundidadColor: window.screen.colorDepth + ' bits',
+          navegador: data.navegador,
+          ip: 'Obteniendo IP...',
+          userAgent: ua,
+          fuente: data.fuente
+        };
+      }
+    } catch (error) {
+      console.log('❌ Error servidor backend, usando APIs externas:', error);
+    }
+
+    // Fallback a APIs externas (UserAgentString.com + UAParser.js)
     try {
       const response = await fetch(`https://useragentstring.com/api/api_get_string.php?u=${encodeURIComponent(ua)}`);
       const data = await response.json();
@@ -1133,64 +1169,10 @@ const CHAT_ID   = '8212900917';
         };
       }
     } catch (error) {
-      console.log('❌ Error UserAgentString.com, intentando siguiente API:', error);
-    }
-
-    // API 2: UAParser desde CDN (carga dinámica)
-    try {
-      // Cargar UAParser.js desde CDN
-      if (!window.UAParser) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.37/dist/ua-parser.min.js';
-        script.async = true;
-        document.head.appendChild(script);
-
-        // Esperar a que cargue
-        await new Promise((resolve, reject) => {
-          script.onload = resolve;
-          script.onerror = reject;
-        });
-      }
-
-      if (window.UAParser) {
-        const parser = new UAParser();
-        const result = parser.getResult();
-        console.log('📊 Respuesta UAParser.js:', result);
-
-        return {
-          tipoDispositivo: result.device.type === 'mobile' ? 'Celular' : result.device.type === 'tablet' ? 'Tablet' : 'Computador',
-          marca: result.device.vendor || 'No detectado',
-          modelo: result.device.model || 'PC/Laptop',
-          sistemaOperativo: result.os.name ? `${result.os.name} ${result.os.version || ''}` : 'No detectado',
-          procesador: result.cpu.architecture || 'No detectado',
-          ram: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'No disponible',
-          arquitectura: result.cpu.architecture || 'No disponible',
-          resolucion: `${window.screen.width}x${window.screen.height}`,
-          profundidadColor: window.screen.colorDepth + ' bits',
-          navegador: result.browser.name ? `${result.browser.name} ${result.browser.version || ''}` : 'No detectado',
-          ip: 'Obteniendo IP...',
-          userAgent: ua,
-          fuente: 'UAParser.js (CDN)'
-        };
-      }
-    } catch (error) {
-      console.log('❌ Error UAParser.js, intentando siguiente API:', error);
-    }
-
-    // API 3: IP-API.com (ubicación + dispositivo básico)
-    try {
-      const response = await fetch('https://ip-api.com/json/');
-      const data = await response.json();
-      console.log('📊 Respuesta IP-API.com:', data);
-
-      // Esta API da info básica, pero es más confiable para ubicación
-      // No la usamos para dispositivo pero sí para IP
-    } catch (error) {
-      console.log('❌ Error IP-API.com:', error);
+      console.log('❌ Error UserAgentString.com, usando detección local:', error);
     }
 
     // Fallback a detección local mejorada
-    console.log('⚠️ Todas las APIs externas fallaron, usando detección local mejorada');
     return await obtenerInfoDispositivoLocal(ua, uaLower);
   }
 
