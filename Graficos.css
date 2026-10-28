@@ -62,7 +62,11 @@ html {
 }
 body {
   font-family: var(--font-body);
-  background: linear-gradient(135deg, #050816 0%, #0a0f1e 100%);
+  background: linear-gradient(135deg, #050816 0%, #0a0f1e 100%), url('fondo-de-pagina/Tecnologia Negro.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   color: var(--text);
   overflow-x: hidden;
   cursor: auto;
@@ -565,11 +569,19 @@ img { max-width: 100%; display: block; }
   width: 68px; height: 68px; position: relative; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
 }
-.service-emoji { 
+.service-emoji {
   font-size: 2.4rem; z-index: 1; position: relative;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)) drop-shadow(0 0 6px rgba(0,212,255,0.15));
   transition: var(--tr);
-  /* Eliminada animación emojiPulse para reducir carga */
+  /* Animación ultra HD rápida */
+  animation: emojiUltraHD 0.6s ease-in-out infinite;
+}
+
+@keyframes emojiUltraHD {
+  0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 10px rgba(0,212,255,0.4)) drop-shadow(0 0 20px rgba(124,58,237,0.3)); }
+  25% { transform: scale(1.15) rotate(8deg); filter: drop-shadow(0 0 15px rgba(0,212,255,0.6)) drop-shadow(0 0 30px rgba(16,185,129,0.4)); }
+  50% { transform: scale(1.08) rotate(-5deg); filter: drop-shadow(0 0 12px rgba(236,72,153,0.5)) drop-shadow(0 0 25px rgba(249,115,22,0.4)); }
+  75% { transform: scale(1.12) rotate(4deg); filter: drop-shadow(0 0 18px rgba(7,185,129,0.5)) drop-shadow(0 0 35px rgba(0,212,255,0.3)); }
 }
 
 .service-emoji-img {
@@ -1912,10 +1924,11 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   position: relative;
   filter: drop-shadow(0 0 12px rgba(0,212,255,0.35));
+  animation: emojiUltraHD 0.7s ease-in-out infinite;
 }
 .horario-card.featured .horario-emoji {
   filter: drop-shadow(0 0 16px rgba(245,158,11,0.5));
-  animation: emojiPop 3s ease-in-out infinite;
+  animation: emojiUltraHD 0.6s ease-in-out infinite;
 }
 @keyframes emojiPop {
   0%,100% { transform: scale(1) rotate(0deg); }
@@ -2350,18 +2363,18 @@ img { max-width: 100%; display: block; }
 .emoji-float   { animation: emojiFloat  3.5s ease-in-out infinite; display:inline-block; }
 
 /* step emojis */
-.step-icon { animation: emojiBounce 2s ease-in-out infinite; }
+.step-icon { animation: emojiUltraHD 0.65s ease-in-out infinite; }
 .step:nth-child(1) .step-icon { animation-delay: 0s; }
-.step:nth-child(3) .step-icon { animation-delay: 0.3s; }
-.step:nth-child(5) .step-icon { animation-delay: 0.6s; }
-.step:nth-child(7) .step-icon { animation-delay: 0.9s; }
+.step:nth-child(3) .step-icon { animation-delay: 0.1s; }
+.step:nth-child(5) .step-icon { animation-delay: 0.2s; }
+.step:nth-child(7) .step-icon { animation-delay: 0.3s; }
 
 /* service emojis */
 .service-emoji { animation: emojiFloat 3s ease-in-out infinite; }
 
 /* review avatars */
-.review-avatar { animation: emojiBounce 3s ease-in-out infinite; }
-.review-card:nth-child(2n) .review-avatar { animation-name: emojiSpin; animation-duration: 4s; }
+.review-avatar { animation: emojiUltraHD 0.75s ease-in-out infinite; }
+.review-card:nth-child(2n) .review-avatar { animation-duration: 0.7s; }
 
 /* ── NEON CARD GLOW PULSE ────────────────────────────── */
 @keyframes cardNeonPulse {
@@ -3484,11 +3497,12 @@ body {
   position: relative; margin: 0 auto 18px;
   display: flex; align-items: center; justify-content: center;
 }
-.porque-emoji { 
+.porque-emoji {
   font-size: 2.5rem; z-index: 1; position: relative;
   filter: drop-shadow(0 0 15px rgba(0,212,255,0.4)) drop-shadow(0 5px 10px rgba(0,0,0,0.3));
   transition: var(--tr);
   transform-style: preserve-3d;
+  animation: emojiUltraHD 0.65s ease-in-out infinite;
 }
 .porque-card:hover .porque-emoji {
   filter: drop-shadow(0 0 25px rgba(0,212,255,0.7)) drop-shadow(0 0 40px rgba(124,58,237,0.5)) drop-shadow(0 10px 20px rgba(0,0,0,0.4));
@@ -3523,6 +3537,7 @@ body {
 }
 .porque-badge-green  { background: rgba(16,185,129,0.08);  border-color: rgba(16,185,129,0.2);  color: var(--green); }
 .porque-badge-purple { background: rgba(168,85,247,0.08);  border-color: rgba(168,85,247,0.2);  color: var(--accent-light); }
+.porque-badge-pink   { background: rgba(236,72,153,0.08);  border-color: rgba(236,72,153,0.2);  color: var(--pink); }
 .porque-badge-yellow { background: rgba(245,158,11,0.08);  border-color: rgba(245,158,11,0.2);  color: var(--yellow); }
 
 /* Garantías banner */
@@ -4253,6 +4268,7 @@ body {
 .top-service-arrow { color: rgba(255,255,255,.32); font-size: .72rem; }
 .top-service-purple .top-service-icon { color: var(--accent-light); background: var(--purple-soft); }
 .top-service-green .top-service-icon { color: var(--green); background: rgba(16,185,129,.11); }
+.top-service-pink .top-service-icon { color: var(--pink); background: rgba(236,72,153,.11); }
 .top-service-orange .top-service-icon { color: var(--orange); background: rgba(251,146,60,.11); }
 .keep-scrolling {
   display: flex;
