@@ -48,6 +48,7 @@ const phrases = [
   '⚡ Reparación de Hardware',
   '🎮 Cambios De Jostick: Xbox, PlayStation',
   '💻 Laptops y PCs: Diagnóstico Premium',
+  '🦠 Eliminamos Virus y Malware',
   '🔧 Te Damos Garantía',
   '🚀 Tu Tecnología al Máximo Rendimiento',
   '🏆 +500 Equipos Reparados con Éxito',
@@ -476,6 +477,18 @@ const SERVICE_DATA = {
       '📧 Microsoft Outlook (opcional)',
       '✅ Activación original garantizada',
       '🔄 Actualizaciones automáticas incluidas',
+    ]
+  },
+  'pc-virus': {
+    icon: '🦠', title: 'Eliminación de Virus y Malware',
+    sub: 'Limpiamos tu PC de virus, malware, spyware y amenazas.',
+    items: [
+      '🦠 Escaneo completo del sistema en busca de virus',
+      '🛡️ Eliminación de malware, spyware y adware',
+      '🔒 Instalación de antivirus profesional',
+      '🧹 Limpieza de archivos infectados y temporales',
+      '⚙️ Configuración de protección en tiempo real',
+      '📊 Análisis de seguridad y recomendaciones',
     ]
   },
   'pc-optimizacion': {
